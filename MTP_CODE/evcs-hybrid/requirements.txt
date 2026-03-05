@@ -1,0 +1,13 @@
+osmnx==1.9.3
+geopandas==0.14.4
+shapely==2.0.6
+pyproj==3.7.0
+pandas==2.2.3
+numpy==2.1.2
+requests==2.32.3
+networkx==3.4.2
+pulp==2.8.0
+deap==1.4.1
+scikit-learn==1.5.2
+
+

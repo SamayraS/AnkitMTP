@@ -1,0 +1,6 @@
+time_window_id,start_hour,end_hour,grid_price_inr_per_kwh
+1,0,6,4.0
+2,6,10,6.0
+3,10,18,8.0
+4,18,22,10.0
+5,22,24,6.0
