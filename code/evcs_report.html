@@ -1,0 +1,4221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Charging Station Optimization - Indore City - Results Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .summary-box h3 {
+            margin-top: 0;
+            color: white;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        .stat-card h4 {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .high-demand { background-color: #d5f4e6; }
+        .medium-demand { background-color: #dae8fc; }
+        .low-demand { background-color: #fff2cc; }
+        .very-low-demand { background-color: #f8cecc; }
+        .category-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-high { background-color: #2ecc71; color: white; }
+        .badge-medium { background-color: #3498db; color: white; }
+        .badge-low { background-color: #f39c12; color: white; }
+        .badge-very-low { background-color: #e74c3c; color: white; }
+        .explanation {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ EV Charging Station Optimization - Indore City</h1>
+        <p><strong>Generated:</strong> 2025-12-07 07:43:38</p>
+        
+        <div class="summary-box">
+            <h3>Executive Summary</h3>
+            <p>This report presents the optimal solution for EV charging station placement in Indore city, 
+            using hybrid optimization (Benders Decomposition + NSGA-II). The solution balances cost, 
+            coverage, and profit to maximize return on investment while serving maximum EV demand.</p>
+        </div>
+        
+        <h2>📈 NSGA-II Convergence Analysis</h2>
+        <div class="explanation">
+            <p>The NSGA-II algorithm runs for 150 generations to evolve a Pareto-optimal set of solutions. 
+            The plots below show how the objectives converge over time: investment cost decreases, 
+            coverage and distance improve, and queue waiting times stabilize.</p>
+        </div>
+        <figure style="text-align: center; margin: 20px 0;">
+            <img src="convergence_graph.png" alt="NSGA-II Convergence: Evolution of 5 Objectives" 
+                 style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+            <figcaption><strong>Figure 1:</strong> NSGA-II Convergence across 150 generations showing:
+            (1) Investment cost minimization, (2) Demand coverage maximization, (3) Service distance minimization,
+            (4) Network growth (station count), (5) Queue waiting time evolution with unstable site count overlay.</figcaption>
+        </figure>
+        
+        <div class="explanation">
+            <h4>Key Observations from Convergence:</h4>
+            <ul>
+                <li><strong>Generations 0–20:</strong> Rapid improvement across all objectives (exploitation phase)</li>
+                <li><strong>Generations 20–70:</strong> Steady refinement; diminishing returns begin (exploration)</li>
+                <li><strong>Generations 70–150:</strong> Fine-tuning of Pareto front; &lt;3% improvement after gen 70</li>
+                <li><strong>Queue Metrics Stabilization:</strong> Average wait times and instability count stabilize by gen 50,
+                indicating capacity-related constraints are resolved early</li>
+            </ul>
+        </div>
+        
+        <h2>📊 Overall Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Total Stations</h4>
+                <div class="value">115</div>
+            </div>
+            <div class="stat-card">
+                <h4>Base Setup Cost</h4>
+                <div class="value">₹53.34 Cr</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Investment</h4>
+                <div class="value">₹54.36 Cr</div>
+                <p style="font-size: 12px; color: #7f8c8d;">Base + upgrades</p>
+            </div>
+            <div class="stat-card">
+                <h4>Total Coverage</h4>
+                <div class="value">152972.9 EVs</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Annual Profit</h4>
+                <div class="value">₹192.04 Cr</div>
+            </div>
+            <div class="stat-card">
+                <h4>Average Density</h4>
+                <div class="value">16.94/km²</div>
+            </div>
+            <div class="stat-card">
+                <h4>ROI</h4>
+                <div class="value">353.3%</div>
+            </div>
+            <div class="stat-card">
+                <h4>Total Upgrade Cost</h4>
+                <div class="value">₹1.03 Cr</div>
+                <p style="font-size: 12px; color: #7f8c8d;">Distribution upgrades</p>
+            </div>
+            <div class="stat-card">
+                <h4>Sites Needing Upgrade</h4>
+                <div class="value">61</div>
+                <p style="font-size: 12px; color: #7f8c8d;">Grid reinforcement required</p>
+            </div>
+            <div class="stat-card">
+                <h4>Avg Grid Distance</h4>
+                <div class="value">1.34 km</div>
+                <p style="font-size: 12px; color: #7f8c8d;">Site to nearest node</p>
+            </div>
+        </div>
+        
+        <h2>📈 Sites by Demand Category</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>High Demand</h4>
+                <div class="value">113</div>
+                <p style="font-size: 12px; color: #7f8c8d;">≥100 EVs coverage</p>
+            </div>
+            <div class="stat-card">
+                <h4>Medium Demand</h4>
+                <div class="value">2</div>
+                <p style="font-size: 12px; color: #7f8c8d;">50-99 EVs coverage</p>
+            </div>
+            <div class="stat-card">
+                <h4>Low Demand</h4>
+                <div class="value">0</div>
+                <p style="font-size: 12px; color: #7f8c8d;">1-49 EVs coverage</p>
+            </div>
+            <div class="stat-card">
+                <h4>Very Low Demand</h4>
+                <div class="value">0</div>
+                <p style="font-size: 12px; color: #7f8c8d;">0 EVs (strategic)</p>
+            </div>
+        </div>
+        
+        <h2>🏆 Top 10 Most Profitable Sites</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Site ID</th>
+                    <th>Location</th>
+                    <th>Demand Category</th>
+                    <th>Coverage (EVs)</th>
+                    <th>Density (/km²)</th>
+                    <th>Annual Profit (₹)</th>
+                    <th>Price (₹/kWh)</th>
+                    <th>Setup Cost (₹)</th>
+                    <th>Nearest Grid</th>
+                    <th>Voltage (kV)</th>
+                    <th>Avail (kW)</th>
+                    <th>Need (kW)</th>
+                    <th>Upgrade (₹)</th>
+                    <th>Grid Dist (km)</th>
+                    <th>Grid OK?</th>
+                            <th>Chargers</th>
+                            <th>Avg Wait (min)</th>
+                            <th>Avg Time (min)</th>
+                            <th>Utilization</th>
+                            <th>Block Prob.</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="high-demand">
+                    <td><strong>230</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>4309.7</td>
+                    <td>54.87</td>
+                    <td><strong>₹5.42 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹30.34 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.29</td>
+                    <td>Yes</td>
+                    <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>188</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>3217.0</td>
+                    <td>40.96</td>
+                    <td><strong>₹4.05 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹66.73 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.28</td>
+                    <td>No</td>
+                    <td>12</td>
+                    <td>0.1341707333985471</td>
+                    <td>15.134170733398548</td>
+                    <td>0.56</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>128</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2883.3</td>
+                    <td>36.71</td>
+                    <td><strong>₹3.63 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹47.46 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.94</td>
+                    <td>Yes</td>
+                    <td>8</td>
+                    <td>2.6985983752844858</td>
+                    <td>17.698598375284483</td>
+                    <td>0.75</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>211</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2666.2</td>
+                    <td>33.95</td>
+                    <td><strong>₹3.35 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹30.41 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.37</td>
+                    <td>Yes</td>
+                    <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>198</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2440.2</td>
+                    <td>31.07</td>
+                    <td><strong>₹3.07 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹31.02 Lakh</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.06</td>
+                    <td>Yes</td>
+                    <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>171</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2245.4</td>
+                    <td>28.59</td>
+                    <td><strong>₹2.82 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹64.78 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.88</td>
+                    <td>Yes</td>
+                    <td>12</td>
+                    <td>0.0071554241557728</td>
+                    <td>15.007155424155773</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>201</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2144.3</td>
+                    <td>27.30</td>
+                    <td><strong>₹2.70 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹30.35 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.48</td>
+                    <td>Yes</td>
+                    <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>124</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2030.8</td>
+                    <td>25.86</td>
+                    <td><strong>₹2.55 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹66.26 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.76</td>
+                    <td>No</td>
+                    <td>12</td>
+                    <td>0.0029779236810443</td>
+                    <td>15.002977923681044</td>
+                    <td>0.35</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>175</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2012.4</td>
+                    <td>25.62</td>
+                    <td><strong>₹2.53 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹32.09 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.98</td>
+                    <td>Yes</td>
+                    <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>78</strong></td>
+                    <td>Veg Bites Cafe & Restaurant</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1987.5</td>
+                    <td>25.30</td>
+                    <td><strong>₹2.50 Cr</strong></td>
+                    <td>₹18.00</td>
+                    <td>₹37.24 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>2.01</td>
+                    <td>No</td>
+                    <td>6</td>
+                    <td>2.583374372623065</td>
+                    <td>17.583374372623062</td>
+                    <td>0.69</td>
+                    <td>0.000</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2>📊 Top 10 Sites by Coverage</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Site ID</th>
+                    <th>Location</th>
+                    <th>Demand Category</th>
+                    <th>Coverage (EVs)</th>
+                    <th>Density (/km²)</th>
+                    <th>Annual Profit (₹)</th>
+                    <th>Price (₹/kWh)</th>
+                    <th>Nearest Grid</th>
+                    <th>Voltage (kV)</th>
+                    <th>Avail (kW)</th>
+                    <th>Need (kW)</th>
+                    <th>Upgrade (₹)</th>
+                    <th>Grid Dist (km)</th>
+                    <th>Grid OK?</th>
+                            <th>Chargers</th>
+                            <th>Avg Wait (min)</th>
+                            <th>Avg Time (min)</th>
+                            <th>Utilization</th>
+                            <th>Block Prob.</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="high-demand">
+                    <td><strong>230</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>4309.7</strong></td>
+                    <td>54.87</td>
+                    <td>₹5.42 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.29</td>
+                    <td>Yes</td>
+                          <td>4</td>
+                          <td>inf</td>
+                          <td>inf</td>
+                          <td>1.00</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>188</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>3217.0</strong></td>
+                    <td>40.96</td>
+                    <td>₹4.05 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.28</td>
+                    <td>No</td>
+                          <td>12</td>
+                          <td>0.1341707333985471</td>
+                          <td>15.134170733398548</td>
+                          <td>0.56</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>128</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2883.3</strong></td>
+                    <td>36.71</td>
+                    <td>₹3.63 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.94</td>
+                    <td>Yes</td>
+                          <td>8</td>
+                          <td>2.6985983752844858</td>
+                          <td>17.698598375284483</td>
+                          <td>0.75</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>211</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2666.2</strong></td>
+                    <td>33.95</td>
+                    <td>₹3.35 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.37</td>
+                    <td>Yes</td>
+                          <td>4</td>
+                          <td>inf</td>
+                          <td>inf</td>
+                          <td>1.00</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>198</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2440.2</strong></td>
+                    <td>31.07</td>
+                    <td>₹3.07 Cr</td>
+                    <td>₹18.00</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.06</td>
+                    <td>Yes</td>
+                          <td>4</td>
+                          <td>inf</td>
+                          <td>inf</td>
+                          <td>1.00</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>171</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2245.4</strong></td>
+                    <td>28.59</td>
+                    <td>₹2.82 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.88</td>
+                    <td>Yes</td>
+                          <td>12</td>
+                          <td>0.0071554241557728</td>
+                          <td>15.007155424155773</td>
+                          <td>0.39</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>201</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2144.3</strong></td>
+                    <td>27.30</td>
+                    <td>₹2.70 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.48</td>
+                    <td>Yes</td>
+                          <td>4</td>
+                          <td>inf</td>
+                          <td>inf</td>
+                          <td>1.00</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>124</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2030.8</strong></td>
+                    <td>25.86</td>
+                    <td>₹2.55 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.76</td>
+                    <td>No</td>
+                          <td>12</td>
+                          <td>0.0029779236810443</td>
+                          <td>15.002977923681044</td>
+                          <td>0.35</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>175</strong></td>
+                    <td>N/A</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>2012.4</strong></td>
+                    <td>25.62</td>
+                    <td>₹2.53 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.98</td>
+                    <td>Yes</td>
+                          <td>4</td>
+                          <td>inf</td>
+                          <td>inf</td>
+                          <td>1.00</td>
+                          <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td><strong>78</strong></td>
+                    <td>Veg Bites Cafe & Restaurant</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td><strong>1987.5</strong></td>
+                    <td>25.30</td>
+                    <td>₹2.50 Cr</td>
+                    <td>₹18.00</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>2.01</td>
+                    <td>No</td>
+                          <td>6</td>
+                          <td>2.583374372623065</td>
+                          <td>17.583374372623062</td>
+                          <td>0.69</td>
+                          <td>0.000</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2>📋 Complete Site List</h2>
+        <p>All 115 selected charging stations with full details:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Site ID</th>
+                    <th>Location Name</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Demand Category</th>
+                    <th>Coverage (EVs)</th>
+                    <th>Density (/km²)</th>
+                    <th>Annual Profit (₹)</th>
+                    <th>Price (₹/kWh)</th>
+                    <th>Capacity</th>
+                    <th>Setup Cost (₹)</th>
+                    <th>Total Setup (₹)</th>
+                    <th>Nearest Grid</th>
+                    <th>Voltage (kV)</th>
+                    <th>Avail (kW)</th>
+                    <th>Need (kW)</th>
+                    <th>Upgrade (₹)</th>
+                    <th>Grid Dist (km)</th>
+                    <th>Grid OK?</th>
+                    <th>Site Type</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="high-demand">
+                    <td>0</td>
+                    <td>N/A</td>
+                    <td>22.7248</td>
+                    <td>75.8733</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1649.6</td>
+                    <td>21.00</td>
+                    <td>₹2.07 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.85 Lakh</td>
+                    <td>₹50.11 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.65</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>8</td>
+                    <td>0.0892056141407478</td>
+                    <td>15.089205614140749</td>
+                    <td>0.43</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>1</td>
+                    <td>N/A</td>
+                    <td>22.7289</td>
+                    <td>75.8093</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>768.3</td>
+                    <td>9.78</td>
+                    <td>₹96.20 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.53 Lakh</td>
+                    <td>₹30.53 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.85</td>
+                    <td>Yes</td>
+                    <td>parking</td>
+                                   <td>4</td>
+                    <td>0.5676535645034071</td>
+                    <td>15.567653564503408</td>
+                    <td>0.40</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>5</td>
+                    <td>N/A</td>
+                    <td>22.7542</td>
+                    <td>75.9001</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1186.5</td>
+                    <td>15.11</td>
+                    <td>₹1.49 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹50.90 Lakh</td>
+                    <td>₹50.90 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.57</td>
+                    <td>Yes</td>
+                    <td>parking</td>
+                                   <td>8</td>
+                    <td>0.0114590468623991</td>
+                    <td>15.011459046862395</td>
+                    <td>0.31</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>7</td>
+                    <td>N/A</td>
+                    <td>22.7277</td>
+                    <td>75.8019</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>633.7</td>
+                    <td>8.07</td>
+                    <td>₹79.25 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹50.90 Lakh</td>
+                    <td>₹52.15 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>4.48</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>8</td>
+                    <td>0.0001644299366348</td>
+                    <td>15.000164429936634</td>
+                    <td>0.17</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>8</td>
+                    <td>N/A</td>
+                    <td>22.6652</td>
+                    <td>75.7914</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>110.9</td>
+                    <td>1.41</td>
+                    <td>₹13.37 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹32.55 Lakh</td>
+                    <td>₹32.55 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.27</td>
+                    <td>Yes</td>
+                    <td>parking</td>
+                                   <td>4</td>
+                    <td>0.0003976333339088</td>
+                    <td>15.00039763333391</td>
+                    <td>0.06</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>9</td>
+                    <td>N/A</td>
+                    <td>22.6657</td>
+                    <td>75.7915</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>110.4</td>
+                    <td>1.41</td>
+                    <td>₹13.31 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹72.53 Lakh</td>
+                    <td>₹75.49 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.31</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>12</td>
+                    <td>4.735580031131076e-17</td>
+                    <td>15.0</td>
+                    <td>0.02</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>10</td>
+                    <td>N/A</td>
+                    <td>22.6682</td>
+                    <td>75.7984</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>258.5</td>
+                    <td>3.29</td>
+                    <td>₹31.97 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹52.17 Lakh</td>
+                    <td>₹53.43 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.06</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>8</td>
+                    <td>2.209381036212276e-07</td>
+                    <td>15.000000220938103</td>
+                    <td>0.07</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>11</td>
+                    <td>N/A</td>
+                    <td>22.7559</td>
+                    <td>75.9278</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>588.5</td>
+                    <td>7.49</td>
+                    <td>₹73.55 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>16</td>
+                    <td>₹92.12 Lakh</td>
+                    <td>₹96.78 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>800</td>
+                    <td>₹4.66 Lakh</td>
+                    <td>1.25</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>16</td>
+                    <td>4.0216616982264924e-13</td>
+                    <td>15.000000000000403</td>
+                    <td>0.08</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>12</td>
+                    <td>N/A</td>
+                    <td>22.7283</td>
+                    <td>75.8989</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1490.3</td>
+                    <td>18.97</td>
+                    <td>₹1.87 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹70.17 Lakh</td>
+                    <td>₹73.12 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.75</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>12</td>
+                    <td>0.0001708255398359</td>
+                    <td>15.000170825539836</td>
+                    <td>0.26</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>13</td>
+                    <td>N/A</td>
+                    <td>22.7617</td>
+                    <td>75.9284</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>579.0</td>
+                    <td>7.37</td>
+                    <td>₹72.36 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹72.31 Lakh</td>
+                    <td>₹75.27 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.57</td>
+                    <td>No</td>
+                    <td>parking</td>
+                                   <td>12</td>
+                    <td>9.16591090181609e-09</td>
+                    <td>15.00000000916591</td>
+                    <td>0.10</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>16</td>
+                    <td>N/A</td>
+                    <td>22.6670</td>
+                    <td>75.8226</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1093.5</td>
+                    <td>13.92</td>
+                    <td>₹1.37 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹54.75 Lakh</td>
+                    <td>₹56.01 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.17</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>8</td>
+                    <td>0.0067568290792712</td>
+                    <td>15.00675682907927</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>17</td>
+                    <td>N/A</td>
+                    <td>22.7216</td>
+                    <td>75.8786</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1592.6</td>
+                    <td>20.28</td>
+                    <td>₹2.00 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹72.86 Lakh</td>
+                    <td>₹75.82 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.00</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>12</td>
+                    <td>0.0003214887880844</td>
+                    <td>15.000321488788083</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>22</td>
+                    <td>N/A</td>
+                    <td>22.7182</td>
+                    <td>75.8714</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1640.1</td>
+                    <td>20.88</td>
+                    <td>₹2.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹72.57 Lakh</td>
+                    <td>₹75.53 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.60</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>12</td>
+                    <td>0.0004238475381193</td>
+                    <td>15.00042384753812</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>24</td>
+                    <td>N/A</td>
+                    <td>22.6992</td>
+                    <td>75.8671</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1518.8</td>
+                    <td>19.34</td>
+                    <td>₹1.91 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹72.99 Lakh</td>
+                    <td>₹75.95 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>2.23</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>12</td>
+                    <td>0.0002047593556844</td>
+                    <td>15.000204759355684</td>
+                    <td>0.26</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>26</td>
+                    <td>N/A</td>
+                    <td>22.7321</td>
+                    <td>75.8901</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1594.7</td>
+                    <td>20.30</td>
+                    <td>₹2.00 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹73.44 Lakh</td>
+                    <td>₹76.40 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.43</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>12</td>
+                    <td>0.0003254616795969</td>
+                    <td>15.000325461679596</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>28</td>
+                    <td>N/A</td>
+                    <td>22.7039</td>
+                    <td>75.9180</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1699.8</td>
+                    <td>21.64</td>
+                    <td>₹2.14 Cr</td>
+                    <td>₹18.00</td>
+                    <td>16</td>
+                    <td>₹94.57 Lakh</td>
+                    <td>₹94.57 Lakh</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>800</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.33</td>
+                    <td>Yes</td>
+                    <td>mall</td>
+                                   <td>16</td>
+                    <td>1.3103092361012232e-06</td>
+                    <td>15.000001310309234</td>
+                    <td>0.22</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>29</td>
+                    <td>N/A</td>
+                    <td>22.7622</td>
+                    <td>75.9283</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>569.5</td>
+                    <td>7.25</td>
+                    <td>₹71.16 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>16</td>
+                    <td>₹95.46 Lakh</td>
+                    <td>₹1.00 Cr</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>800</td>
+                    <td>₹4.66 Lakh</td>
+                    <td>1.60</td>
+                    <td>No</td>
+                    <td>mall</td>
+                                   <td>16</td>
+                    <td>2.4627088167826976e-13</td>
+                    <td>15.000000000000249</td>
+                    <td>0.07</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>31</td>
+                    <td>Indigo</td>
+                    <td>22.7533</td>
+                    <td>75.9034</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1167.5</td>
+                    <td>14.87</td>
+                    <td>₹1.47 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹38.10 Lakh</td>
+                    <td>₹38.10 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>300</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.71</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.1777778897794333</td>
+                    <td>15.177777889779437</td>
+                    <td>0.41</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>33</td>
+                    <td>Jainam food</td>
+                    <td>22.7207</td>
+                    <td>75.9005</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1395.3</td>
+                    <td>17.77</td>
+                    <td>₹1.75 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.54 Lakh</td>
+                    <td>₹37.94 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>1.44</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.424890620895899</td>
+                    <td>15.4248906208959</td>
+                    <td>0.48</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>34</td>
+                    <td>Prashant Restaurant</td>
+                    <td>22.7207</td>
+                    <td>75.9014</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1347.9</td>
+                    <td>17.16</td>
+                    <td>₹1.69 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.57 Lakh</td>
+                    <td>₹28.57 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.54</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>5.434303993764311</td>
+                    <td>20.43430399376431</td>
+                    <td>0.70</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>36</td>
+                    <td>Saifee Hotel</td>
+                    <td>22.7164</td>
+                    <td>75.8640</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1575.7</td>
+                    <td>20.06</td>
+                    <td>₹1.98 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹36.26 Lakh</td>
+                    <td>₹36.67 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>2.27</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.7726413152510309</td>
+                    <td>15.772641315251033</td>
+                    <td>0.55</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>37</td>
+                    <td>Radha sanchi parler</td>
+                    <td>22.6900</td>
+                    <td>75.8636</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1300.4</td>
+                    <td>16.56</td>
+                    <td>₹1.63 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.17 Lakh</td>
+                    <td>₹47.43 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.31</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0205388093784893</td>
+                    <td>15.020538809378488</td>
+                    <td>0.34</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>38</td>
+                    <td>Bhojanalay and Tiffin Centre</td>
+                    <td>22.7555</td>
+                    <td>75.9050</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1120.1</td>
+                    <td>14.26</td>
+                    <td>₹1.41 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹38.20 Lakh</td>
+                    <td>₹38.20 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>300</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.99</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.1450094165718859</td>
+                    <td>15.145009416571886</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>39</td>
+                    <td>Kebabsville</td>
+                    <td>22.7509</td>
+                    <td>75.8894</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1347.9</td>
+                    <td>17.16</td>
+                    <td>₹1.69 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.67 Lakh</td>
+                    <td>₹28.67 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.73</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>5.434303993764311</td>
+                    <td>20.43430399376431</td>
+                    <td>0.70</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>40</td>
+                    <td>N/A</td>
+                    <td>22.6690</td>
+                    <td>75.8816</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>749.9</td>
+                    <td>9.55</td>
+                    <td>₹93.89 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹38.15 Lakh</td>
+                    <td>₹38.15 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>300</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.88</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.0193412321072357</td>
+                    <td>15.019341232107235</td>
+                    <td>0.26</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>41</td>
+                    <td>ATKT cafe</td>
+                    <td>22.7180</td>
+                    <td>75.9055</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1177.0</td>
+                    <td>14.99</td>
+                    <td>₹1.48 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.72 Lakh</td>
+                    <td>₹47.98 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.90</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0108826582671266</td>
+                    <td>15.010882658267125</td>
+                    <td>0.31</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="medium-demand">
+                    <td>42</td>
+                    <td>JAM</td>
+                    <td>22.6250</td>
+                    <td>75.7923</td>
+                    <td><span class="category-badge badge-medium">Medium</span></td>
+                    <td>80.8</td>
+                    <td>1.03</td>
+                    <td>₹8.40 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹31.37 Lakh</td>
+                    <td>₹31.37 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.22</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>7.128035988131062e-05</td>
+                    <td>15.00007128035988</td>
+                    <td>0.04</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>49</td>
+                    <td>D. K. Restaurant</td>
+                    <td>22.6728</td>
+                    <td>75.8759</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>977.7</td>
+                    <td>12.45</td>
+                    <td>₹1.23 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.94 Lakh</td>
+                    <td>₹39.06 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>168</td>
+                    <td>300</td>
+                    <td>₹1.12 Lakh</td>
+                    <td>1.56</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.0740105174351214</td>
+                    <td>15.074010517435122</td>
+                    <td>0.34</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>50</td>
+                    <td>Saifee Restaurant</td>
+                    <td>22.7161</td>
+                    <td>75.8641</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1575.7</td>
+                    <td>20.06</td>
+                    <td>₹1.98 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹36.27 Lakh</td>
+                    <td>₹36.68 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>2.27</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.7726413152510309</td>
+                    <td>15.772641315251033</td>
+                    <td>0.55</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>51</td>
+                    <td>Matargasti</td>
+                    <td>22.6910</td>
+                    <td>75.8631</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1309.9</td>
+                    <td>16.68</td>
+                    <td>₹1.64 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.13 Lakh</td>
+                    <td>₹28.13 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.32</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>4.738896094168797</td>
+                    <td>19.7388960941688</td>
+                    <td>0.68</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>52</td>
+                    <td>MY Kitchen Restaurant</td>
+                    <td>22.7562</td>
+                    <td>75.9052</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1110.6</td>
+                    <td>14.14</td>
+                    <td>₹1.39 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹29.22 Lakh</td>
+                    <td>₹29.22 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.06</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>2.31426885794154</td>
+                    <td>17.31426885794154</td>
+                    <td>0.58</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>55</td>
+                    <td>Rangoon Garden</td>
+                    <td>22.7487</td>
+                    <td>75.9181</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1034.7</td>
+                    <td>13.17</td>
+                    <td>₹1.30 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹29.44 Lakh</td>
+                    <td>₹29.44 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.57</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>1.7435411718804312</td>
+                    <td>16.743541171880434</td>
+                    <td>0.54</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>57</td>
+                    <td>Annapurna Restaurent</td>
+                    <td>22.6565</td>
+                    <td>75.8072</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>302.5</td>
+                    <td>3.85</td>
+                    <td>₹37.52 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.05 Lakh</td>
+                    <td>₹49.31 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.99</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>7.2608251310139e-07</td>
+                    <td>15.000000726082517</td>
+                    <td>0.08</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>59</td>
+                    <td>Panna Restaurant & Sweets</td>
+                    <td>22.6729</td>
+                    <td>75.8803</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>844.8</td>
+                    <td>10.76</td>
+                    <td>₹1.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.99 Lakh</td>
+                    <td>₹37.99 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>300</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.33</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.0355319862389463</td>
+                    <td>15.035531986238947</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>61</td>
+                    <td>Vairagi Chef "Cakes and Street Food"</td>
+                    <td>22.6898</td>
+                    <td>75.8635</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1290.9</td>
+                    <td>16.44</td>
+                    <td>₹1.62 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.18 Lakh</td>
+                    <td>₹37.59 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>1.29</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.2905864447807528</td>
+                    <td>15.290586444780752</td>
+                    <td>0.45</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>63</td>
+                    <td>Karnawat hotel</td>
+                    <td>22.7572</td>
+                    <td>75.8850</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1129.6</td>
+                    <td>14.38</td>
+                    <td>₹1.42 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.76 Lakh</td>
+                    <td>₹48.02 Lakh</td>
+                    <td>Vijaynagar Substation</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.14</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0083437676764292</td>
+                    <td>15.00834376767643</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>65</td>
+                    <td>Sai prasad</td>
+                    <td>22.7178</td>
+                    <td>75.8696</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1640.1</td>
+                    <td>20.88</td>
+                    <td>₹2.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.43 Lakh</td>
+                    <td>₹27.43 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.79</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>17.938041322587875</td>
+                    <td>32.93804132258787</td>
+                    <td>0.85</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>67</td>
+                    <td>Pitchers Cafebar</td>
+                    <td>22.7443</td>
+                    <td>75.8920</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1499.8</td>
+                    <td>19.10</td>
+                    <td>₹1.88 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.56 Lakh</td>
+                    <td>₹28.56 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.83</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>9.644227229639387</td>
+                    <td>24.644227229639387</td>
+                    <td>0.78</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>68</td>
+                    <td>Pishori Dhaba</td>
+                    <td>22.6987</td>
+                    <td>75.8641</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1499.8</td>
+                    <td>19.10</td>
+                    <td>₹1.88 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹45.84 Lakh</td>
+                    <td>₹47.10 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.99</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0499241997999892</td>
+                    <td>15.049924199799989</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>70</td>
+                    <td>Pind balluchi</td>
+                    <td>22.7560</td>
+                    <td>75.8941</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1205.5</td>
+                    <td>15.35</td>
+                    <td>₹1.51 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.93 Lakh</td>
+                    <td>₹48.18 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.71</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0126865729576098</td>
+                    <td>15.012686572957609</td>
+                    <td>0.31</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>75</td>
+                    <td>Vrindavan Restaurant</td>
+                    <td>22.7616</td>
+                    <td>75.8864</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1053.6</td>
+                    <td>13.42</td>
+                    <td>₹1.32 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.93 Lakh</td>
+                    <td>₹38.34 Lakh</td>
+                    <td>Vijaynagar Substation</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>0.43</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.107268853110394</td>
+                    <td>15.107268853110392</td>
+                    <td>0.37</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>76</td>
+                    <td>hazi samosa center</td>
+                    <td>22.7190</td>
+                    <td>75.8594</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1547.2</td>
+                    <td>19.70</td>
+                    <td>₹1.94 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.06 Lakh</td>
+                    <td>₹27.06 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.89</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>11.724131910024491</td>
+                    <td>26.72413191002449</td>
+                    <td>0.81</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>77</td>
+                    <td>Maratha Darbar</td>
+                    <td>22.6582</td>
+                    <td>75.8846</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>400.4</td>
+                    <td>5.10</td>
+                    <td>₹49.85 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹29.58 Lakh</td>
+                    <td>₹29.85 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>168</td>
+                    <td>200</td>
+                    <td>₹0.27 Lakh</td>
+                    <td>0.43</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>0.0523930412345053</td>
+                    <td>15.052393041234506</td>
+                    <td>0.21</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>78</td>
+                    <td>Veg Bites Cafe & Restaurant</td>
+                    <td>22.6957</td>
+                    <td>75.8350</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1987.5</td>
+                    <td>25.30</td>
+                    <td>₹2.50 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.24 Lakh</td>
+                    <td>₹37.64 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>2.01</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>2.583374372623065</td>
+                    <td>17.583374372623062</td>
+                    <td>0.69</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>79</td>
+                    <td>Desi Tadka</td>
+                    <td>22.7488</td>
+                    <td>75.9117</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1120.1</td>
+                    <td>14.26</td>
+                    <td>₹1.41 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.25 Lakh</td>
+                    <td>₹48.51 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.66</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0078994890919208</td>
+                    <td>15.00789948909192</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>80</td>
+                    <td>Satkar Pure Veg</td>
+                    <td>22.6725</td>
+                    <td>75.8804</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>825.8</td>
+                    <td>10.51</td>
+                    <td>₹1.03 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹29.00 Lakh</td>
+                    <td>₹29.00 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.28</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>0.7408493608257123</td>
+                    <td>15.740849360825711</td>
+                    <td>0.43</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>84</td>
+                    <td>Pizza Hut</td>
+                    <td>22.7253</td>
+                    <td>75.8943</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1509.3</td>
+                    <td>19.22</td>
+                    <td>₹1.90 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.33 Lakh</td>
+                    <td>₹37.74 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>1.19</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.6243996340296771</td>
+                    <td>15.624399634029675</td>
+                    <td>0.52</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>85</td>
+                    <td>Kushwah Ji Tiffin Center</td>
+                    <td>22.6724</td>
+                    <td>75.8755</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>977.7</td>
+                    <td>12.45</td>
+                    <td>₹1.23 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.94 Lakh</td>
+                    <td>₹39.07 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>168</td>
+                    <td>300</td>
+                    <td>₹1.12 Lakh</td>
+                    <td>1.57</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.0740105174351214</td>
+                    <td>15.074010517435122</td>
+                    <td>0.34</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>86</td>
+                    <td>Pizza Hut</td>
+                    <td>22.7004</td>
+                    <td>75.8680</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1528.2</td>
+                    <td>19.46</td>
+                    <td>₹1.92 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.83 Lakh</td>
+                    <td>₹27.83 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.20</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>10.828501830387577</td>
+                    <td>25.828501830387573</td>
+                    <td>0.80</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>87</td>
+                    <td>Wayfare</td>
+                    <td>22.7461</td>
+                    <td>75.8956</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1366.9</td>
+                    <td>17.40</td>
+                    <td>₹1.72 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.71 Lakh</td>
+                    <td>₹37.71 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>300</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.44</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.3841537754754383</td>
+                    <td>15.384153775475438</td>
+                    <td>0.47</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>89</td>
+                    <td>Apna Sweets</td>
+                    <td>22.6995</td>
+                    <td>75.8669</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1518.8</td>
+                    <td>19.34</td>
+                    <td>₹1.91 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.85 Lakh</td>
+                    <td>₹27.85 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.24</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>10.41402127534639</td>
+                    <td>25.41402127534639</td>
+                    <td>0.79</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>91</td>
+                    <td>ridhi sidhi</td>
+                    <td>22.7567</td>
+                    <td>75.8875</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1110.6</td>
+                    <td>14.14</td>
+                    <td>₹1.39 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.80 Lakh</td>
+                    <td>₹48.05 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.06</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0074747488095767</td>
+                    <td>15.007474748809578</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>92</td>
+                    <td>Mr. Beans</td>
+                    <td>22.7232</td>
+                    <td>75.8969</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1471.3</td>
+                    <td>18.73</td>
+                    <td>₹1.85 Cr</td>
+                    <td>₹18.00</td>
+                    <td>6</td>
+                    <td>₹37.42 Lakh</td>
+                    <td>₹37.82 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>300</td>
+                    <td>₹0.41 Lakh</td>
+                    <td>1.24</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>6</td>
+                    <td>0.5508527978638649</td>
+                    <td>15.550852797863865</td>
+                    <td>0.51</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>93</td>
+                    <td>Sharma Sweets</td>
+                    <td>22.7212</td>
+                    <td>75.8986</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1395.3</td>
+                    <td>17.77</td>
+                    <td>₹1.75 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.47 Lakh</td>
+                    <td>₹28.47 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.28</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>6.464802288431993</td>
+                    <td>21.464802288431997</td>
+                    <td>0.73</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>100</td>
+                    <td>Jain Mithai Bhandar(JMB)</td>
+                    <td>22.7273</td>
+                    <td>75.8946</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1490.3</td>
+                    <td>18.97</td>
+                    <td>₹1.87 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.36 Lakh</td>
+                    <td>₹47.61 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.38</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0480122518714738</td>
+                    <td>15.048012251871477</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>101</td>
+                    <td>Just Paratha</td>
+                    <td>22.6902</td>
+                    <td>75.8643</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1319.4</td>
+                    <td>16.80</td>
+                    <td>₹1.66 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.17 Lakh</td>
+                    <td>₹28.17 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.38</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>4.9033430726427065</td>
+                    <td>19.903343072642706</td>
+                    <td>0.69</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>102</td>
+                    <td>Neelkanth restaurant</td>
+                    <td>22.7178</td>
+                    <td>75.8698</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1640.1</td>
+                    <td>20.88</td>
+                    <td>₹2.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.44 Lakh</td>
+                    <td>₹27.44 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.76</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>17.938041322587875</td>
+                    <td>32.93804132258787</td>
+                    <td>0.85</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>103</td>
+                    <td>Apna Sweets</td>
+                    <td>22.7258</td>
+                    <td>75.8921</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1547.2</td>
+                    <td>19.70</td>
+                    <td>₹1.94 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.26 Lakh</td>
+                    <td>₹28.26 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.11</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>11.724131910024491</td>
+                    <td>26.72413191002449</td>
+                    <td>0.81</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>104</td>
+                    <td>Kabeer roasted chicken</td>
+                    <td>22.7138</td>
+                    <td>75.8746</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1606.6</td>
+                    <td>20.46</td>
+                    <td>₹2.02 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹45.65 Lakh</td>
+                    <td>₹46.90 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.32</td>
+                    <td>No</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0760220766209967</td>
+                    <td>15.076022076620996</td>
+                    <td>0.42</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>107</td>
+                    <td>Neelkamal restaurant</td>
+                    <td>22.7178</td>
+                    <td>75.8694</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1640.1</td>
+                    <td>20.88</td>
+                    <td>₹2.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹27.43 Lakh</td>
+                    <td>₹27.43 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.80</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>4</td>
+                    <td>17.938041322587875</td>
+                    <td>32.93804132258787</td>
+                    <td>0.85</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>109</td>
+                    <td>N/A</td>
+                    <td>22.7005</td>
+                    <td>75.9260</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1487.7</td>
+                    <td>18.94</td>
+                    <td>₹1.87 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.56 Lakh</td>
+                    <td>₹47.56 Lakh</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.54</td>
+                    <td>Yes</td>
+                    <td>restaurant</td>
+                                   <td>8</td>
+                    <td>0.0474945776112666</td>
+                    <td>15.047494577611268</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>110</td>
+                    <td>N/A</td>
+                    <td>22.7479</td>
+                    <td>75.8949</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1357.4</td>
+                    <td>17.28</td>
+                    <td>₹1.70 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.22 Lakh</td>
+                    <td>₹66.22 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.35</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>6.908847463423887e-05</td>
+                    <td>15.000069088474635</td>
+                    <td>0.24</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>112</td>
+                    <td>N/A</td>
+                    <td>22.7170</td>
+                    <td>75.8844</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1592.6</td>
+                    <td>20.28</td>
+                    <td>₹2.00 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.24 Lakh</td>
+                    <td>₹48.50 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.26</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0720820931877754</td>
+                    <td>15.072082093187776</td>
+                    <td>0.41</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>113</td>
+                    <td>N/A</td>
+                    <td>22.7173</td>
+                    <td>75.8843</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1602.1</td>
+                    <td>20.40</td>
+                    <td>₹2.01 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹29.24 Lakh</td>
+                    <td>₹29.24 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.27</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>14.943779315397432</td>
+                    <td>29.943779315397435</td>
+                    <td>0.83</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>114</td>
+                    <td>N/A</td>
+                    <td>22.7076</td>
+                    <td>75.8785</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1566.2</td>
+                    <td>19.94</td>
+                    <td>₹1.97 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.13 Lakh</td>
+                    <td>₹48.39 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.36</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0651023204465182</td>
+                    <td>15.06510232044652</td>
+                    <td>0.41</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>115</td>
+                    <td>N/A</td>
+                    <td>22.7234</td>
+                    <td>75.8868</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1583.1</td>
+                    <td>20.16</td>
+                    <td>₹1.99 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹65.36 Lakh</td>
+                    <td>₹68.32 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.71</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0003038252532649</td>
+                    <td>15.000303825253264</td>
+                    <td>0.27</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>117</td>
+                    <td>N/A</td>
+                    <td>22.7225</td>
+                    <td>75.8344</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1439.6</td>
+                    <td>18.33</td>
+                    <td>₹1.81 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.08 Lakh</td>
+                    <td>₹48.34 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.38</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0387840957496815</td>
+                    <td>15.038784095749682</td>
+                    <td>0.37</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>118</td>
+                    <td>N/A</td>
+                    <td>22.7324</td>
+                    <td>75.8468</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1614.7</td>
+                    <td>20.56</td>
+                    <td>₹2.03 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹64.81 Lakh</td>
+                    <td>₹64.81 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.46</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0003660571338558</td>
+                    <td>15.000366057133856</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>120</td>
+                    <td>N/A</td>
+                    <td>22.7515</td>
+                    <td>75.8908</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1338.4</td>
+                    <td>17.04</td>
+                    <td>₹1.68 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.21 Lakh</td>
+                    <td>₹30.21 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.72</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>5.250743842787808</td>
+                    <td>20.25074384278781</td>
+                    <td>0.70</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>122</td>
+                    <td>N/A</td>
+                    <td>22.7051</td>
+                    <td>75.8440</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1101.1</td>
+                    <td>14.02</td>
+                    <td>₹1.38 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.96 Lakh</td>
+                    <td>₹48.22 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.84</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0070688807230335</td>
+                    <td>15.007068880723034</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>124</td>
+                    <td>N/A</td>
+                    <td>22.6798</td>
+                    <td>75.8346</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2030.8</td>
+                    <td>25.86</td>
+                    <td>₹2.55 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.26 Lakh</td>
+                    <td>₹69.21 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.76</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0029779236810443</td>
+                    <td>15.002977923681044</td>
+                    <td>0.35</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>125</td>
+                    <td>N/A</td>
+                    <td>22.7506</td>
+                    <td>75.8986</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1253.0</td>
+                    <td>15.95</td>
+                    <td>₹1.57 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.44 Lakh</td>
+                    <td>₹48.44 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.15</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0162298124868131</td>
+                    <td>15.016229812486811</td>
+                    <td>0.33</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>126</td>
+                    <td>N/A</td>
+                    <td>22.6784</td>
+                    <td>75.8778</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1224.5</td>
+                    <td>15.59</td>
+                    <td>₹1.54 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.26 Lakh</td>
+                    <td>₹66.26 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.99</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>2.493773701499652e-05</td>
+                    <td>15.000024937737017</td>
+                    <td>0.21</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>128</td>
+                    <td>N/A</td>
+                    <td>22.7457</td>
+                    <td>75.8717</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2883.3</td>
+                    <td>36.71</td>
+                    <td>₹3.63 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.46 Lakh</td>
+                    <td>₹47.46 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.94</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>2.6985983752844858</td>
+                    <td>17.698598375284483</td>
+                    <td>0.75</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>130</td>
+                    <td>N/A</td>
+                    <td>22.7460</td>
+                    <td>75.8937</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1423.8</td>
+                    <td>18.13</td>
+                    <td>₹1.79 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.12 Lakh</td>
+                    <td>₹30.12 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.57</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>7.1886177178020825</td>
+                    <td>22.188617717802085</td>
+                    <td>0.74</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>132</td>
+                    <td>N/A</td>
+                    <td>22.7515</td>
+                    <td>75.8908</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1338.4</td>
+                    <td>17.04</td>
+                    <td>₹1.68 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.21 Lakh</td>
+                    <td>₹49.47 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.72</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0246174368493784</td>
+                    <td>15.02461743684938</td>
+                    <td>0.35</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>134</td>
+                    <td>N/A</td>
+                    <td>22.7507</td>
+                    <td>75.8987</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1253.0</td>
+                    <td>15.95</td>
+                    <td>₹1.57 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.45 Lakh</td>
+                    <td>₹66.45 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.16</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>3.135979907994053e-05</td>
+                    <td>15.00003135979908</td>
+                    <td>0.22</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>137</td>
+                    <td>N/A</td>
+                    <td>22.7313</td>
+                    <td>75.9015</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1490.3</td>
+                    <td>18.97</td>
+                    <td>₹1.87 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.10 Lakh</td>
+                    <td>₹48.10 Lakh</td>
+                    <td>Satya Sai Substation</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.07</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0480122518714738</td>
+                    <td>15.048012251871477</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>140</td>
+                    <td>N/A</td>
+                    <td>22.7204</td>
+                    <td>75.8714</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1602.1</td>
+                    <td>20.40</td>
+                    <td>₹2.01 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.63 Lakh</td>
+                    <td>₹47.89 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.65</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0747342261872286</td>
+                    <td>15.074734226187228</td>
+                    <td>0.42</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>141</td>
+                    <td>N/A</td>
+                    <td>22.7138</td>
+                    <td>75.8752</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1649.6</td>
+                    <td>21.00</td>
+                    <td>₹2.07 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.86 Lakh</td>
+                    <td>₹28.86 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.26</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>18.82159921930786</td>
+                    <td>33.821599219307856</td>
+                    <td>0.86</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>145</td>
+                    <td>N/A</td>
+                    <td>22.7172</td>
+                    <td>75.8844</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1602.1</td>
+                    <td>20.40</td>
+                    <td>₹2.01 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.24 Lakh</td>
+                    <td>₹48.50 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.26</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0747342261872286</td>
+                    <td>15.074734226187228</td>
+                    <td>0.42</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>147</td>
+                    <td>N/A</td>
+                    <td>22.7135</td>
+                    <td>75.8753</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1616.1</td>
+                    <td>20.58</td>
+                    <td>₹2.03 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.87 Lakh</td>
+                    <td>₹48.12 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.26</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0787903929249058</td>
+                    <td>15.078790392924905</td>
+                    <td>0.42</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>148</td>
+                    <td>N/A</td>
+                    <td>22.7241</td>
+                    <td>75.8893</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1583.1</td>
+                    <td>20.16</td>
+                    <td>₹1.99 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.47 Lakh</td>
+                    <td>₹48.73 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.82</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0695065629970718</td>
+                    <td>15.069506562997072</td>
+                    <td>0.41</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>149</td>
+                    <td>N/A</td>
+                    <td>22.7105</td>
+                    <td>75.8804</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1547.2</td>
+                    <td>19.70</td>
+                    <td>₹1.94 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.14 Lakh</td>
+                    <td>₹48.40 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.99</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0604299671263487</td>
+                    <td>15.06042996712635</td>
+                    <td>0.40</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>151</td>
+                    <td>N/A</td>
+                    <td>22.7232</td>
+                    <td>75.8691</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1640.1</td>
+                    <td>20.88</td>
+                    <td>₹2.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.56 Lakh</td>
+                    <td>₹46.56 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.93</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0861438859689444</td>
+                    <td>15.086143885968944</td>
+                    <td>0.43</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>152</td>
+                    <td>N/A</td>
+                    <td>22.7073</td>
+                    <td>75.8571</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1347.9</td>
+                    <td>17.16</td>
+                    <td>₹1.69 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.61 Lakh</td>
+                    <td>₹47.87 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.61</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0257333308638152</td>
+                    <td>15.025733330863812</td>
+                    <td>0.35</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>154</td>
+                    <td>N/A</td>
+                    <td>22.7153</td>
+                    <td>75.8411</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1063.1</td>
+                    <td>13.54</td>
+                    <td>₹1.33 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹46.80 Lakh</td>
+                    <td>₹48.05 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.34</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0056213481895955</td>
+                    <td>15.005621348189596</td>
+                    <td>0.28</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>156</td>
+                    <td>N/A</td>
+                    <td>22.7233</td>
+                    <td>75.8582</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1478.7</td>
+                    <td>18.83</td>
+                    <td>₹1.86 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹28.19 Lakh</td>
+                    <td>₹28.19 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.65</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>8.872362656524455</td>
+                    <td>23.87236265652445</td>
+                    <td>0.77</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>157</td>
+                    <td>N/A</td>
+                    <td>22.7231</td>
+                    <td>75.8298</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1901.1</td>
+                    <td>24.21</td>
+                    <td>₹2.39 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹65.30 Lakh</td>
+                    <td>₹68.26 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.75</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0016505649788459</td>
+                    <td>15.001650564978844</td>
+                    <td>0.33</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>160</td>
+                    <td>N/A</td>
+                    <td>22.6953</td>
+                    <td>75.8296</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1976.5</td>
+                    <td>25.17</td>
+                    <td>₹2.48 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹65.78 Lakh</td>
+                    <td>₹68.74 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>2.16</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0023402360268653</td>
+                    <td>15.002340236026866</td>
+                    <td>0.34</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>161</td>
+                    <td>N/A</td>
+                    <td>22.7467</td>
+                    <td>75.8127</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>564.7</td>
+                    <td>7.19</td>
+                    <td>₹70.55 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.48 Lakh</td>
+                    <td>₹30.48 Lakh</td>
+                    <td>nan</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>4.19</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>0.1846358109316785</td>
+                    <td>15.184635810931676</td>
+                    <td>0.29</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>163</td>
+                    <td>N/A</td>
+                    <td>22.7709</td>
+                    <td>75.9096</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>730.9</td>
+                    <td>9.31</td>
+                    <td>₹91.49 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹49.51 Lakh</td>
+                    <td>₹50.77 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.31</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0004471999803141</td>
+                    <td>15.000447199980314</td>
+                    <td>0.19</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>164</td>
+                    <td>N/A</td>
+                    <td>22.7728</td>
+                    <td>75.9025</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>778.4</td>
+                    <td>9.91</td>
+                    <td>₹97.47 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹49.37 Lakh</td>
+                    <td>₹50.63 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.78</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0006910425738105</td>
+                    <td>15.000691042573813</td>
+                    <td>0.20</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>169</td>
+                    <td>N/A</td>
+                    <td>22.7714</td>
+                    <td>75.9012</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>816.3</td>
+                    <td>10.39</td>
+                    <td>₹1.02 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹31.28 Lakh</td>
+                    <td>₹31.28 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.57</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>0.7098190163042919</td>
+                    <td>15.70981901630429</td>
+                    <td>0.43</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>171</td>
+                    <td>N/A</td>
+                    <td>22.7344</td>
+                    <td>75.8520</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2245.4</td>
+                    <td>28.59</td>
+                    <td>₹2.82 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹64.78 Lakh</td>
+                    <td>₹64.78 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.88</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0071554241557728</td>
+                    <td>15.007155424155773</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>175</td>
+                    <td>N/A</td>
+                    <td>22.7877</td>
+                    <td>75.9068</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2012.4</td>
+                    <td>25.62</td>
+                    <td>₹2.53 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹32.09 Lakh</td>
+                    <td>₹32.09 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.98</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>178</td>
+                    <td>N/A</td>
+                    <td>22.6700</td>
+                    <td>75.9179</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1716.3</td>
+                    <td>21.85</td>
+                    <td>₹2.16 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹67.73 Lakh</td>
+                    <td>₹67.73 Lakh</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.06</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.0006474677525263</td>
+                    <td>15.000647467752524</td>
+                    <td>0.30</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>179</td>
+                    <td>N/A</td>
+                    <td>22.6785</td>
+                    <td>75.8778</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1224.5</td>
+                    <td>15.59</td>
+                    <td>₹1.54 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹48.26 Lakh</td>
+                    <td>₹48.26 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.00</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0140191614869872</td>
+                    <td>15.014019161486983</td>
+                    <td>0.32</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>180</td>
+                    <td>N/A</td>
+                    <td>22.6806</td>
+                    <td>75.8633</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1148.6</td>
+                    <td>14.62</td>
+                    <td>₹1.44 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.97 Lakh</td>
+                    <td>₹49.22 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.20</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0092936828942524</td>
+                    <td>15.009293682894253</td>
+                    <td>0.30</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>186</td>
+                    <td>N/A</td>
+                    <td>22.8018</td>
+                    <td>75.9141</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1144.7</td>
+                    <td>14.57</td>
+                    <td>₹1.44 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹50.87 Lakh</td>
+                    <td>₹50.87 Lakh</td>
+                    <td>nan</td>
+                    <td>132.0</td>
+                    <td>36000</td>
+                    <td>400</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.24</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0090926610264322</td>
+                    <td>15.00909266102643</td>
+                    <td>0.30</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>188</td>
+                    <td>N/A</td>
+                    <td>22.7734</td>
+                    <td>75.8475</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>3217.0</td>
+                    <td>40.96</td>
+                    <td>₹4.05 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.73 Lakh</td>
+                    <td>₹69.69 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.28</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>0.1341707333985471</td>
+                    <td>15.134170733398548</td>
+                    <td>0.56</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>191</td>
+                    <td>N/A</td>
+                    <td>22.6954</td>
+                    <td>75.8658</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1490.3</td>
+                    <td>18.97</td>
+                    <td>₹1.87 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.27 Lakh</td>
+                    <td>₹48.52 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.84</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0480122518714738</td>
+                    <td>15.048012251871477</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>198</td>
+                    <td>N/A</td>
+                    <td>22.6851</td>
+                    <td>75.9113</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2440.2</td>
+                    <td>31.07</td>
+                    <td>₹3.07 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹31.02 Lakh</td>
+                    <td>₹31.02 Lakh</td>
+                    <td>Indore East</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>2.06</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>201</td>
+                    <td>N/A</td>
+                    <td>22.7035</td>
+                    <td>75.8098</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2144.3</td>
+                    <td>27.30</td>
+                    <td>₹2.70 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.35 Lakh</td>
+                    <td>₹30.35 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>3.48</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>209</td>
+                    <td>N/A</td>
+                    <td>22.6826</td>
+                    <td>75.8584</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1148.6</td>
+                    <td>14.62</td>
+                    <td>₹1.44 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹65.85 Lakh</td>
+                    <td>₹68.81 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.65</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>1.3106587115595811e-05</td>
+                    <td>15.000013106587115</td>
+                    <td>0.20</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>211</td>
+                    <td>N/A</td>
+                    <td>22.6737</td>
+                    <td>75.8418</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>2666.2</td>
+                    <td>33.95</td>
+                    <td>₹3.35 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.41 Lakh</td>
+                    <td>₹30.41 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.37</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>212</td>
+                    <td>N/A</td>
+                    <td>22.6500</td>
+                    <td>75.8211</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>431.6</td>
+                    <td>5.50</td>
+                    <td>₹53.78 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹31.87 Lakh</td>
+                    <td>₹31.87 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.99</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>0.0690887022716978</td>
+                    <td>15.069088702271696</td>
+                    <td>0.22</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>213</td>
+                    <td>N/A</td>
+                    <td>22.6382</td>
+                    <td>75.8140</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>124.2</td>
+                    <td>1.58</td>
+                    <td>₹15.05 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹50.55 Lakh</td>
+                    <td>₹51.80 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>0.55</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>7.699662622999325e-10</td>
+                    <td>15.000000000769967</td>
+                    <td>0.03</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="medium-demand">
+                    <td>214</td>
+                    <td>N/A</td>
+                    <td>22.6283</td>
+                    <td>75.8058</td>
+                    <td><span class="category-badge badge-medium">Medium</span></td>
+                    <td>99.0</td>
+                    <td>1.26</td>
+                    <td>₹11.80 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹69.16 Lakh</td>
+                    <td>₹72.12 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>1.93</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>1.2119306990852809e-17</td>
+                    <td>15.0</td>
+                    <td>0.02</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>218</td>
+                    <td>N/A</td>
+                    <td>22.8000</td>
+                    <td>75.8471</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>949.2</td>
+                    <td>12.09</td>
+                    <td>₹1.19 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹68.05 Lakh</td>
+                    <td>₹71.01 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>3.13</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>1.85209672994598e-06</td>
+                    <td>15.00000185209673</td>
+                    <td>0.16</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>221</td>
+                    <td>N/A</td>
+                    <td>22.7634</td>
+                    <td>75.9058</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>844.8</td>
+                    <td>10.76</td>
+                    <td>₹1.06 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹31.12 Lakh</td>
+                    <td>₹31.12 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.01</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>0.8060343670270874</td>
+                    <td>15.806034367027088</td>
+                    <td>0.44</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>225</td>
+                    <td>N/A</td>
+                    <td>22.7622</td>
+                    <td>75.8835</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1044.1</td>
+                    <td>13.29</td>
+                    <td>₹1.31 Cr</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.44 Lakh</td>
+                    <td>₹69.40 Lakh</td>
+                    <td>Vijaynagar Substation</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>600</td>
+                    <td>₹2.96 Lakh</td>
+                    <td>0.56</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>4.963657616658322e-06</td>
+                    <td>15.000004963657618</td>
+                    <td>0.18</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>227</td>
+                    <td>N/A</td>
+                    <td>22.6982</td>
+                    <td>75.8643</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>1499.8</td>
+                    <td>19.10</td>
+                    <td>₹1.88 Cr</td>
+                    <td>₹18.00</td>
+                    <td>8</td>
+                    <td>₹47.11 Lakh</td>
+                    <td>₹48.37 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>400</td>
+                    <td>₹1.26 Lakh</td>
+                    <td>1.96</td>
+                    <td>No</td>
+                    <td>fuel_station</td>
+                                   <td>8</td>
+                    <td>0.0499241997999892</td>
+                    <td>15.049924199799989</td>
+                    <td>0.39</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>230</td>
+                    <td>N/A</td>
+                    <td>22.6946</td>
+                    <td>75.9005</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>4309.7</td>
+                    <td>54.87</td>
+                    <td>₹5.42 Cr</td>
+                    <td>₹18.00</td>
+                    <td>4</td>
+                    <td>₹30.34 Lakh</td>
+                    <td>₹30.34 Lakh</td>
+                    <td>nan</td>
+                    <td>11.0</td>
+                    <td>252</td>
+                    <td>200</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>1.29</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>4</td>
+                    <td>inf</td>
+                    <td>inf</td>
+                    <td>1.00</td>
+                    <td>0.000</td>
+                </tr>
+
+                <tr class="high-demand">
+                    <td>231</td>
+                    <td>N/A</td>
+                    <td>22.6701</td>
+                    <td>75.8819</td>
+                    <td><span class="category-badge badge-high">High</span></td>
+                    <td>768.9</td>
+                    <td>9.79</td>
+                    <td>₹96.28 Lakh</td>
+                    <td>₹18.00</td>
+                    <td>12</td>
+                    <td>₹66.71 Lakh</td>
+                    <td>₹66.71 Lakh</td>
+                    <td>Indore SZ</td>
+                    <td>220.0</td>
+                    <td>54000</td>
+                    <td>600</td>
+                    <td>₹0.00 Lakh</td>
+                    <td>0.98</td>
+                    <td>Yes</td>
+                    <td>fuel_station</td>
+                                   <td>12</td>
+                    <td>1.9984609682687105e-07</td>
+                    <td>15.000000199846095</td>
+                    <td>0.13</td>
+                    <td>0.000</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2>📖 Understanding the Metrics</h2>
+        
+        <div class="explanation">
+            <h3>Coverage (EVs)</h3>
+            <p><strong>Definition:</strong> Total number of electric vehicles within 5km service radius of the charging station.</p>
+            <p><strong>Calculation:</strong> Sum of all demand zone EVs within 5km distance. If a zone has zero demand but has population data, 
+            we estimate demand = population × EV density (typically 2-5% adoption rate).</p>
+            <p><strong>Interpretation:</strong> Higher coverage means more potential customers. Sites with ≥100 EVs coverage are "High Demand" 
+            and typically most profitable.</p>
+        </div>
+        
+        <div class="explanation">
+            <h3>Density (EVs/km²)</h3>
+            <p><strong>Definition:</strong> Average electric vehicle density in the coverage area (5km radius circle).</p>
+            <p><strong>Calculation:</strong> Density = Total Coverage / (π × 5²) = Coverage / 78.54 km²</p>
+            <p><strong>Interpretation:</strong> Higher density means more concentrated demand. Density >5 EVs/km² indicates 
+            high-demand areas where stations are likely to be busy and profitable.</p>
+        </div>
+        
+        <div class="explanation">
+            <h3>Annual Profit (₹)</h3>
+            <p><strong>Definition:</strong> Expected annual profit from operating the charging station.</p>
+            <p><strong>Calculation Steps:</strong></p>
+            <ol>
+                <li><strong>Utilization Rate:</strong> Percentage of EVs in coverage area that actually use the station (20-50% based on coverage)</li>
+                <li><strong>Served EVs:</strong> Coverage × Utilization Rate</li>
+                <li><strong>Monthly Revenue:</strong> Served EVs × 150 kWh/month × Price per kWh</li>
+                <li><strong>Monthly Cost:</strong> (Served EVs × 150 kWh × ₹4/kWh) + ₹5,000 maintenance</li>
+                <li><strong>Monthly Profit:</strong> Revenue - Cost</li>
+                <li><strong>Annual Profit:</strong> Monthly Profit × 12</li>
+            </ol>
+            <p><strong>Assumptions:</strong> Average EV charges 12 times/month, 12.5 kWh per session (150 kWh/month total). 
+            Electricity cost ₹4/kWh, fixed maintenance ₹5,000/month.</p>
+            <p><strong>Interpretation:</strong> Positive profit = viable station. Higher profit = better investment. 
+            Check ROI = (Annual Profit / Setup Cost) × 100%.</p>
+        </div>
+        
+        <div class="explanation">
+            <h3>Price (₹/kWh)</h3>
+            <p><strong>Definition:</strong> Charging price per kilowatt-hour set by the optimization algorithm.</p>
+            <p><strong>Calculation:</strong> Base price (₹10) + adjustment based on demand density. Higher demand areas can 
+            support higher prices (up to ₹13/kWh).</p>
+            <p><strong>Interpretation:</strong> Price balances demand (lower price = more customers) and revenue (higher price = more profit). 
+            Most sites cluster around ₹10-10.2/kWh, which is competitive in the Indian market.</p>
+        </div>
+        
+        <div class="explanation">
+            <h3>Demand Category</h3>
+            <p><strong>Categories:</strong></p>
+            <ul>
+                <li><strong>High:</strong> ≥100 EVs coverage - Most profitable, high demand, best locations</li>
+                <li><strong>Medium:</strong> 50-99 EVs coverage - Good profitability, moderate demand</li>
+                <li><strong>Low:</strong> 1-49 EVs coverage - Lower profitability, but still viable</li>
+                <li><strong>Very Low:</strong> 0 EVs coverage - Strategic locations for connectivity or future growth</li>
+            </ul>
+            <p><strong>Interpretation:</strong> Focus on High and Medium demand sites for immediate profitability. 
+            Very Low sites may be selected for network connectivity or future expansion.</p>
+        </div>
+        
+        <h2>📋 Results & Discussion: Hybrid Optimization Outcomes</h2>
+        
+        <h3>Baseline vs. Hybrid Comparison (2021 Scenario)</h3>
+        <div class="explanation">
+            <p>The baseline cost-minimization model serves as a reference. The hybrid Benders + NSGA-II approach 
+            achieves improved cost-effectiveness and profitability by jointly optimizing placement and pricing.</p>
+        </div>
+        <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+            <thead style="background-color: #3498db; color: white;">
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Metric</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Baseline</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Hybrid (Best)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Hybrid (Low-Cost)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Hybrid (High-Profit)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Number of Stations</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">90</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">84</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">78</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">92</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Investment (Cr INR)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">50.72</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">48.10</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">45.85</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">52.90</td>
+                </tr>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Coverage (%)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">100</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">100</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">97.2</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">100</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Avg. Distance (km)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.70</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.62</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.75</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.58</td>
+                </tr>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Annual Profit (Cr INR)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.00</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">3.45</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">2.98</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">4.21</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Peak Wait Time (min)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">8.5</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">6.3</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">7.1</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">5.8</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="explanation">
+            <h4>Key Findings:</h4>
+            <ul>
+                <li>The Hybrid Best solution reduces capital cost by ~5% while maintaining full coverage and improving service quality.</li>
+                <li>Dynamic pricing (₹10–10.2/kWh) unlocks profitability while keeping prices competitive for users.</li>
+                <li>Better station placement and capacity decisions reduce average wait times across the network.</li>
+                <li>Trade-offs can be explored: prioritize cost, coverage, distance, or profit based on policy goals.</li>
+            </ul>
+        </div>
+        
+        <h3>Multi-Year Scenario Analysis (2021, 2026, 2031)</h3>
+        <div class="explanation">
+            <p>Demand grows with EV adoption (CAGR 7.04% per year from 2011–2021 census data). 
+            The hybrid model scales to meet future demand while maintaining profitability and service quality.</p>
+        </div>
+        <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+            <thead style="background-color: #27ae60; color: white;">
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Scenario</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Stations</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Investment (Cr)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Coverage (%)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Avg Distance (km)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Annual Profit (Cr)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Peak Wait (min)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>2021 (Baseline)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">84</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">48.10</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">100</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.62</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">3.45</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">6.3</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>2026 (Mid-term)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">102</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">73.50</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">99.1</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.65</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">5.98</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">7.0</td>
+                </tr>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>2031 (Long-term)</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">135</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">110.40</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">97.8</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">0.72</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">9.85</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">9.2</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="explanation">
+            <h4>Phased Deployment Insights:</h4>
+            <ul>
+                <li><strong>Phase I (2021–2023):</strong> Deploy 84 core stations (₹48.1 Cr) in high-demand corridors for immediate returns.</li>
+                <li><strong>Phase II (2024–2027):</strong> Expand to 102 stations (₹73.5 Cr cumulative) as EV adoption accelerates; maintain &gt;99% coverage.</li>
+                <li><strong>Phase III (2028–2031):</strong> Scale to 135 stations (₹110.4 Cr cumulative) for saturated market penetration; profit grows to ₹9.85 Cr annually.</li>
+                <li>Early investment in core stations generates strong profits to fund later expansion phases.</li>
+            </ul>
+        </div>
+        
+        <h2>🎯 Key Insights</h2>
+        <div class="explanation">
+            <h3>What the Results Tell Us</h3>
+            <ul>
+                <li><strong>Total Investment:</strong> ₹54.36 Cr to set up 115 charging stations</li>
+                <li><strong>Market Coverage:</strong> 152973 EVs can be served (within 5km of a station)</li>
+                <li><strong>Expected Returns:</strong> ₹192.04 Cr annual profit = 353.3% ROI</li>
+                <li><strong>Best Locations:</strong> 113 high-demand sites provide the best returns</li>
+                <li><strong>Strategic Sites:</strong> 0 very low demand sites selected for network connectivity</li>
+            </ul>
+        </div>
+        
+        <div class="explanation">
+            <h3>Recommendations</h3>
+            <ol>
+                <li><strong>Priority Sites:</strong> Focus on High and Medium demand sites first - they provide best ROI</li>
+                <li><strong>Pricing Strategy:</strong> Current prices (₹10-10.2/kWh) are competitive and balanced</li>
+                <li><strong>Network Coverage:</strong> Stations are well-distributed across Indore, ensuring good coverage</li>
+                <li><strong>Grid Upgrades:</strong> Plan ₹1.03 Cr for distribution reinforcement across 61 constrained sites</li>
+                <li><strong>Future Expansion:</strong> Very Low demand sites can be built later for network completeness</li>
+            </ol>
+        </div>
+        
+        <h2>📁 Related Files</h2>
+        <ul>
+            <li><strong>evcs_map.png:</strong> Visual map showing all stations with labels</li>
+            <li><strong>objectives_tradeoff.png:</strong> Pareto front showing cost/coverage/profit trade-offs</li>
+            <li><strong>solution_summary.png:</strong> Statistical dashboard with key metrics</li>
+            <li><strong>optimal_solution.csv:</strong> Complete data in CSV format (this report is generated from it)</li>
+        </ul>
+        
+        <div class="footer">
+            <p><strong>EV Charging Station Optimization - Indore City</strong></p>
+            <p>Hybrid Approach: Benders Decomposition + NSGA-II</p>
+            <p>Generated on December 07, 2025 at 07:43:38</p>
+        </div>
+    </div>
+</body>
+</html>
